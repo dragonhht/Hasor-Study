@@ -1,7 +1,9 @@
 package com.gitee.carloshuang.config
 
+import com.gitee.carloshuang.execute.MyPreExecute
 import net.hasor.core.ApiBinder
 import net.hasor.core.DimModule
+import net.hasor.dataway.spi.PreExecuteChainSpi
 import net.hasor.db.JdbcModule
 import net.hasor.db.Level
 import net.hasor.spring.SpringModule
@@ -25,6 +27,8 @@ class DatawayModule: SpringModule {
 
     override fun loadModule(apiBinder: ApiBinder?) {
         apiBinder!!.installModule(JdbcModule(Level.Full, dataSource))
+        // 注册拦截器
+        apiBinder.bindSpiListener(PreExecuteChainSpi::class.java, MyPreExecute())
     }
 
 }
